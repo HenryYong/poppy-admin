@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+webpack_cache/
+/dist/
+.vscode
