@@ -1,23 +1,17 @@
 import ajax from 'src/utils/ajax'
 
-const state = {
+export const state = {
     
 }
 
-const getters = {
+export const getters = {
 
 }
 
-const mutations = {
-    /**
-     * 更新 store.pipeline 中的 taskTypes
-     *
-     * @param {Object} state store state
-     * @param {Array} arr taskTypes 数组
-     */
+export const mutations = {
 }
 
-const actions = {
+export const actions = {
     /**
      * 登录请求
      *
@@ -56,12 +50,4 @@ const actions = {
             return response
         })
     }
-}
-
-export default {
-    namespaced: true,
-    state,
-    getters,
-    mutations,
-    actions
 }

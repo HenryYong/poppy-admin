@@ -7,16 +7,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ajax from 'src/utils/ajax'
 import auth from './auth'
-import admin from './admin'
-import client from './client'
+import articles from './articles'
+import categories from './categories'
+import tags from './tags'
+import roles from './roles'
+import users from './users'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         auth,
-        admin,
-        client
+        articles,
+        categories,
+        tags,
+        roles,
+        users
     },
     // 公共state
     state: {

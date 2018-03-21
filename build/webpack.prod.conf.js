@@ -27,8 +27,6 @@ import {
 const webpackConfig = merge(baseConfig, {
     entry: {
         'main': './src/main.js'
-        // 'admin': './src/admin.js',
-        // 'client': './src/client.js'
     },
     module: {
         // rules: styleLoaders({
@@ -62,7 +60,6 @@ const webpackConfig = merge(baseConfig, {
             }
         }),
         new HTMLWebpackPlugin({
-            // filename: config.build.assetsRoot + sep + config.build.assetsSubDirectory + '/index.html',
             filename: resolve(config.build.assetsRoot + sep + config.build.assetsSubDirectory, '..') + '/index.html',
             template: 'index.html',
             inject: true,
@@ -71,7 +68,6 @@ const webpackConfig = merge(baseConfig, {
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             },
-            // chunks: ['main', 'admin', 'client'],
             // 如果打开 vendor 和 manifest 那么需要配置 chunksSortMode 保证引入 script 的顺序
             chunksSortMode: 'dependency'
         }),
@@ -104,28 +100,6 @@ const webpackConfig = merge(baseConfig, {
         ])
     ]
 })
-
-// const htmlArray = ['index', 'admin', 'client']
-// htmlArray.forEach((element) => {
-//     const chunksArray = [element]
-//     // if (element === 'index') {
-//     //     chunksArray.push('entry')
-//     // }
-//     const newPlugin = new HTMLWebpackPlugin({
-//         filename: config.build.assetsRoot + sep + config.build.assetsSubDirectory + '/index.html',
-//         template: element + '.html', // 获取最初的html末班
-//         inject: true, // 插入文件的位置
-//         hash: true, // 在生成的文件后面增加一个hash，防止缓存
-//         minify: {
-//             removeComments: true,
-//             collapseWhitespace: true,
-//             removeAttributeQuotes: true
-//         },
-//         chunks: chunksArray,
-//         chunksSortMode: 'dependency'
-//     })
-//     webpackConfig.plugins.push(newPlugin)
-// })
 
 if (config.build.productionGzip) {
     webpackConfig.plugins.push(

@@ -19,6 +19,7 @@ export default {
         bundleAnalyzerReport: process.env.npm_config_report
     },
     dev: {
+        port: 8005,
         envVar: devEnvVar,
         assetsPublicPath: '/',
         assetsSubDirectory: 'static',

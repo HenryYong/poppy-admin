@@ -1,82 +1,34 @@
-// import Vue from 'vue'
-// import Router from 'vue-router'
-// import adminRoutes from './admin'
-// import clientRoutes from './client/index.bak.js'
-
-// // admin框架页
-// const Admin = () => import(
-//     /* webpackChunkName: 'Admin' */
-//     './../views/admin/index'
-// )
-
-// // client框架页
-// const Client = () => import(
-//     /* webpackChunkName: 'Client' */
-//     './../views/client/index'
-// )
-// // const None = () => import(
-// //     /* webpackChunkName: 'None' */
-// //     '../views/none'
-// // )
-
-// Vue.use(Router)
-
-// let allRoutes = []
-
-// allRoutes.push(
-//     {
-//         path: '/admin',
-//         component: Admin,
-//         children: adminRoutes
-//     },
-//     {
-//         path: '',
-//         component: Client,
-//         children: clientRoutes
-//     }
-// )
-
-// const router = new Router({
-//     mode: 'history',
-//     routes: allRoutes
-// })
-
-// router.beforeEach((to, from, next) => {
-//     next()
-// })
-
-// router.afterEach(route => {
-
-// })
-
-// export default router
 /**
- * client路由配置
+ * admin路由配置
  * @author Henry Yang
  */
 
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import About from './client/about'
-import Archives from './client/archives'
-import Categories from './client/categories'
-import Contact from './client/contact'
-import Tags from './client/tags'
-import Articles from './client/articles'
+import Auth from './auth'
+import Common from './common'
+import Articles from './articles'
+import Roles from './roles'
+import Users from './users'
+import Tags from './tags'
+import Categories from './categories'
+import Comments from './comments'
 
-// client框架页
-const Client = () => import(
-    /* webpackChunkName: 'Client' */
-    './../views/client/index'
+// admin框架页
+const Admin = () => import(
+    /* webpackChunkName: 'Admin' */
+    './../views/index'
 )
 let routesArr = [
-    About,
-    Archives,
-    Categories,
-    Contact,
+    Common,
+    Auth,
+    Articles,
+    Roles,
+    Users,
     Tags,
-    Articles
+    Categories,
+    Comments
 ]
 let children = []
 let routes = []
@@ -89,13 +41,18 @@ routesArr.map(route => {
 
 routes.push(
     {
-        path: '',
-        component: Client,
+        path: '/admin',
+        component: Admin,
         children
+    },
+    {
+        path: '',
+        redirect: {
+            path: '/admin'
+        }
     }
 )
 
-// export default routes
 const router = new Router({
     mode: 'history',
     routes
@@ -108,6 +65,5 @@ router.beforeEach((to, from, next) => {
 router.afterEach(route => {
 
 })
-console.log(router)
 
 export default router

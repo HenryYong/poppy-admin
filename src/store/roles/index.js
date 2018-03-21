@@ -1,4 +1,4 @@
-import * as articles from './auth'
+import * as articles from './role'
 import { mergeModules } from 'src/utils/utils'
 
 const basicModule = {

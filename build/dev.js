@@ -15,6 +15,7 @@ import config from './../config'
 
 import opn from 'opn'
 
+const port = process.env.PORT || config.dev.port
 const webpackConfig = devConf
 const autoOpenBrowser = !!config.dev.autoOpenBrowser
 
@@ -49,7 +50,7 @@ const readyPromise = new Promise(resolve => {
 
 devMiddleware.waitUntilValid(() => {
     if (autoOpenBrowser) {
-        opn('http://dev.sephenry.cn:8002')
+        opn(`http://dev.sephenry.cn:${port}`)
     }
     _resolve()
 })
@@ -58,8 +59,8 @@ devMiddleware.waitUntilValid(() => {
 //     opn('http://dev.sephenry.cn:8002')
 // }
 
-const server = koa.listen(8002, () => {
-    console.log('app listen at 8002')
+const server = koa.listen(port, () => {
+    console.log(`app listen at ${port}`)
 })
 
 export default {
