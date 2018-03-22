@@ -1,0 +1,26 @@
+@charset 'utf-8';
+@import './../conf';
+
+@mixin initBox ($selector, $opt) {
+    $count: 50;
+
+    @while $count > 0 {
+        #{$selector}#{$count} {
+            #{$opt}: 1px * $count;
+        }
+
+        $count: $count - 5
+    }
+}
+
+@include initBox('.m', 'margin');
+@include initBox('.mt', 'margin-top');
+@include initBox('.mr', 'margin-right');
+@include initBox('.mb', 'margin-bottom');
+@include initBox('.ml', 'margin-left');
+
+@include initBox('.p', 'padding');
+@include initBox('.pt', 'padding-top');
+@include initBox('.pr', 'padding-right');
+@include initBox('.pb', 'padding-bottom');
+@include initBox('.pl', 'padding-left');

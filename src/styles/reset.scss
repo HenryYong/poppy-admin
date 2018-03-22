@@ -1,0 +1,45 @@
+@import './conf';
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./../static/ubuntu.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', 'PingFangSC-Regular', 'Microsoft Yahei';
+}
+
+html,
+body {
+    height: 100%;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: $black;
+}
+
+img {
+    vertical-align: center;
+}
+
+button {
+    outline: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}

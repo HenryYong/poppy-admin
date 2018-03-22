@@ -1,0 +1,59 @@
+@import './icon/style';
+@import './conf';
+@import './base/common';
+
+.fl {
+    float: left !important;
+}
+
+.fr {
+    float: right !important;
+}
+
+.ta-center {
+    text-align: center !important;
+}
+
+.ta-left {
+    text-align: left !important;
+}
+
+.text-overflow {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.inner-title {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.form-wrapper {
+    border: 1px solid $grayLightest;
+    padding: 20px;
+    .el-form-item {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.tips {
+    color: $grayDarker;
+    font: {
+        size: 12px;
+        weight: normal;
+    }
+}
+
+.lh-36 {
+    line-height: 36px;
+}
+
+.text-link {
+    color: $primary;
+    &:hover {
+        opacity: .8;
+    }
+}

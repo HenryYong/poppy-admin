@@ -1,0 +1,46 @@
+// https://dribbble.com/shots/4054588-Palettes
+// Theme colors
+$primary: #4883f2;
+$secondary: #506182;
+$tertiary: #f37f72;
+
+// Feedback colors
+$info: #5fa4f6;
+$success: #6dcf70;
+$warning: #f6c842;
+$danger: #fd6151;
+
+// Grayscales
+$white: #fff;
+$grayLightest: #f1f3f6;
+$grayLighter: #e2e7ec;
+$grayLight: #d0d8e1;
+$grayDark: #a3aeb8;
+$grayDarker: #6d7883;
+$blackLight: #2a2c30;
+$black: #202327; // 普通文本
+
+// Other
+$blue: #5272da;
+$violet: #847ae6;
+$orange: #fb8e3b;
+$cyan: #48cbb7;
+
+%clearfix {
+    &:before,
+    &:after {
+        content: '';
+        line-height: 0;
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+// client side
+$themeColor: #bfefff;
+$themeDark: #a5e5ff;
+$borderColor: #e8e8e8;
+$fontLight: #9f9f9f;
+$fontDark: #111111;
