@@ -1,7 +1,7 @@
 {
-  "name": "poppy-app",
+  "name": "poppy-admin",
   "version": "0.0.1",
-  "description": "app for personal blog",
+  "description": "admin for personal blog",
   "main": "app.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev babel-node build/dev.js",

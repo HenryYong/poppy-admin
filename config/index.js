@@ -12,7 +12,7 @@ export default {
         envVar: prodEnvVar,
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
-        assetsSubDirectory: 'static',
+        assetsSubDirectory: 'admin/static',
         productionSourceMap: true,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
