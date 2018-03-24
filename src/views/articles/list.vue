@@ -69,7 +69,7 @@
         },
         async created () {
             try {
-                let res = await this.$store.dispatch('admin/requestArticlesList')
+                let res = await this.$store.dispatch('articles/requestArticlesList')
 
                 this.renderList.splice(0, this.renderList.length, ...res.data)
                 this.showContent = true

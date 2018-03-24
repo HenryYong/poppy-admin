@@ -20,7 +20,7 @@ function resolve (dir) {
 }
 
 export default {
-    context: path.resolve(__dirname, '../'), // 配置当前js执行时的上下文位置
+    // context: path.resolve(__dirname, '../'), // 配置当前js执行时的上下文位置
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',

@@ -226,7 +226,7 @@
                     let {
                         $store
                     } = this
-                    let res = await $store.dispatch('admin/requestTagByCategory', category)
+                    let res = await $store.dispatch('tags/requestTagByCategory', category)
                     
                     this.tagsList.splice(0, this.tagsList.length, ...res.data)
                 } catch (err) {
@@ -329,7 +329,7 @@
                             let res
 
                             if (this.pageType === 'CreateArticle') {
-                                res = await this.$store.dispatch('admin/requestCreateArticle', params)
+                                res = await this.$store.dispatch('articles/requestCreateArticle', params)
 
                                 setTimeout(() => {
                                     this.$router.push({
@@ -338,7 +338,7 @@
                                 }, 200)
                             } else {
                                 params.article_id = this.cacheArticle.article_id
-                                res = await this.$store.dispatch('admin/requestUpdateArticle', params)
+                                res = await this.$store.dispatch('articles/requestUpdateArticle', params)
                             }
 
                             this.$message.success(res.message)
@@ -369,7 +369,7 @@
                     try {
                         this.loading = true
 
-                        let delRes = await this.$store.dispatch('admin/requestDeleteArticle', this.cacheArticle.article_id)
+                        let delRes = await this.$store.dispatch('articles/requestDeleteArticle', this.cacheArticle.article_id)
 
                         msg = delRes.message
                         type = 'success'
@@ -397,7 +397,7 @@
             } = this
 
             try {
-                let res = await $store.dispatch('admin/requestCategoriesForList')
+                let res = await $store.dispatch('categories/requestCategoriesForList')
                 this.categoryList.splice(0, this.categoryList.length, ...res.data)
 
                 let {
@@ -407,7 +407,7 @@
                 // 编辑文章
                 if (this.pageType === 'EditArticle') {
                     try {
-                        let articleRes = await $store.dispatch('admin/requestOneArticle', this.$route.params.articleId)
+                        let articleRes = await $store.dispatch('articles/requestOneArticle', this.$route.params.articleId)
                         let response = articleRes.data
 
                         ruleArticle.title = response.title
