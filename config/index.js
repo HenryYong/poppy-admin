@@ -11,7 +11,7 @@ export default {
     build: {
         envVar: prodEnvVar,
         assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsPublicPath: '/',
+        assetsPublicPath: '',
         assetsSubDirectory: 'static',
         productionSourceMap: true,
         productionGzip: false,
