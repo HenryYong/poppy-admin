@@ -10,7 +10,7 @@ import auth from './utils/auth'
 import store from './store'
 import router from './router'
 import App from './App'
-console.log('admin.js')
+
 auth.validateUser().then((jwt) => {
     if (jwt && jwt !== auth.getJWT()) {
         auth.setJWT(jwt)

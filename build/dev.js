@@ -21,6 +21,7 @@ const autoOpenBrowser = !!config.dev.autoOpenBrowser
 
 const koa = new Koa()
 const compiler = webpack(webpackConfig)
+
 const devMiddleware = KoaWebpackDevMiddleware(compiler, {
     publicPath: devConf.output.publicPath,
     quiet: true
@@ -29,17 +30,16 @@ const hotMiddleware = KoaWebpackHotMiddleware(compiler, {
     heartbeat: 2000
 })
 
-koa.use(history())
-koa.use(devMiddleware)
-
 // compiler.plugin('compilation', compilation => {
 //     compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
-//         console.log(hotMiddleware)
+//         console.log('hotMiddleware', hotMiddleware)
 //         hotMiddleware.publish({ action: 'reload' })
 //         cb()
 //     })
 // })
 
+koa.use(history())
+koa.use(devMiddleware)
 koa.use(hotMiddleware)
 koa.use(serve(path.join(__dirname, '/dist/'), { extensions: ['html'] }))
 

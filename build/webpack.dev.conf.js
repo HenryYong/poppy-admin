@@ -13,7 +13,8 @@ import config from './../config'
 // 合并webpack配置
 const webpackConfig = merge(baseConfig, {
     entry: {
-        'main': ['webpack-hot-middleware/client', './src/main.js']
+        // 'main': ['webpack-hot-middleware/client', './src/main.js']
+        main: './src/main.js'
     },
     devtool: '#cheap-module-eval-source-map',
     plugins: [
@@ -29,4 +30,10 @@ const webpackConfig = merge(baseConfig, {
     ]
 })
 
+Object.keys(webpackConfig.entry).forEach(function (name) {
+    console.log('name', name)
+    webpackConfig.entry[name] = ['./build/dev-reload'].concat(webpackConfig.entry[name])
+})
+
+console.log(webpackConfig)
 export default webpackConfig
