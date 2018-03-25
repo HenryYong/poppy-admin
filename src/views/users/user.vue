@@ -102,7 +102,7 @@
             } = this
 
             try {
-                let res = await $store.dispatch('admin/requestRoleList')
+                let res = await $store.dispatch('roles/requestRoleList')
                 
                 this.roleList.splice(0, this.roleList.length, ...res.data)
             } catch (err) {

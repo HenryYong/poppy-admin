@@ -85,7 +85,7 @@
             try {
                 this.loading = true
 
-                let res = await $store.dispatch('admin/requestCategoriesForList')
+                let res = await $store.dispatch('categories/requestCategoriesForList')
 
                 this.categoryList.splice(0, this.categoryList.length, ...res.data)
             } catch (err) {
@@ -95,7 +95,7 @@
 
             if (pageType === 'EditTag') {
                 try {
-                    let res = await $store.dispatch('admin/requestOneTag', this.$route.params.tagId)
+                    let res = await $store.dispatch('tags/requestOneTag', this.$route.params.tagId)
                     let data = res.data[0]
 
                     config.id = data.id
@@ -134,7 +134,7 @@
                     this.loading = true
 
                     if (isCreate) { // 新增
-                        res = await this.$store.dispatch('admin/requestCreateTag', {
+                        res = await this.$store.dispatch('tags/requestCreateTag', {
                             name,
                             category,
                             enable

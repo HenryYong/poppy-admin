@@ -62,7 +62,7 @@
         },
         async created () {
             try {
-                let res = await this.$store.dispatch('admin/requestRoleList')
+                let res = await this.$store.dispatch('roles/requestRoleList')
 
                 this.renderList.splice(0, this.renderList.length, ...res.data.map(item => {
                     item.create_time = formatTime(item.create_time)

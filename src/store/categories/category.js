@@ -107,5 +107,23 @@ export const actions = {
         return ajax.post(`${AJAX_URL}/categories/`, params).then(response => {
             return response
         })
+    },
+    /**
+     * 删除分类
+     *
+     * @param {Function} commit store commit mutation handler
+     * @param {Object} state store state
+     * @param {Function} dispatch store dispatch action handler
+     * @param {Number} id 分类id
+     *
+     * @return {Promise} promise 对象
+     */
+    requestDeleteCategory ({ commit, state, dispatch }, id) {
+        console.log('id', id)
+        return ajax.post(`${AJAX_URL}/delete_category/`, {
+            id
+        }).then(response => {
+            return response
+        })
     }
 }
