@@ -74,7 +74,7 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestCategoriesForList ({ commit, state, dispatch }) {
-        return ajax.get(`${AJAX_URL}/categories/list/`).then(response => {
+        return ajax.get(`${AJAX_URL}/categories_list/`).then(response => {
             return response
         })
     },

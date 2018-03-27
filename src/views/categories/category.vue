@@ -75,7 +75,7 @@
                     this.loading = true
 
                     let res = await this.$store.dispatch('categories/requestCategoryList', this.$route.params.categoryId)
-                    let data = res.data[0]
+                    let data = res.data
 
                     config.id = data.id
                     config.name = data.name
@@ -139,14 +139,16 @@
                     }, 1000)
                 }
             },
-            async delCategory () {
+            delCategory () {
                 let {
                     config: {
                         id
                     },
                     $store
                 } = this
+                let articleCount
                 let tagsCount
+                let res
 
                 this.$confirm('确定删除分类？', '警告', {
                     confirmButtonText: '确定',
@@ -155,17 +157,19 @@
                 }).then(async () => {
                     this.loading = true
 
-                    // try {
+                    try {
+                        res = await $store.dispatch('articles/requestArticleByCondition', { id })
+                        let count = Object.keys(res.data).length
 
-                    // } catch (err) {
-                    //     this.$message.error(`${err.data ? err.data.message : err}`)
-                    //     console.warn('请求分类下文章数接口错误')
-                    //     this.loading = false
-                    //     return
-                    // }
+                        articleCount = count
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn('请求分类下文章数接口错误')
+                        this.loading = false
+                    }
 
                     try {
-                        let res = await $store.dispatch('tags/requestTagByCategory', { id })
+                        res = await $store.dispatch('tags/requestTagByCategory', { id })
                         let count = res.data.length
                         
                         tagsCount = count
@@ -173,11 +177,10 @@
                         this.$message.error(`${err.data ? err.data.message : err}`)
                         console.warn('请求分类下标签数接口错误')
                         this.loading = false
-                        return
                     }
-                    console.log(6666)
-                    if (tagsCount) {
-                        this.$message.error('请先删除当前分类下所有文章标签')
+
+                    if (articleCount || tagsCount) {
+                        this.$message.error('请先删除当前分类下所有文章或标签')
                     } else {
                         try {
                             let res = await $store.dispatch('categories/requestDeleteCategory', id)
