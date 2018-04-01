@@ -67,7 +67,12 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestEditRole ({ commit, state, dispatch }, params) {
-        return ajax.post(`${AJAX_URL}/roles/`, params).then(response => {
+        return ajax.post(`${AJAX_URL}/role/`, params).then(response => {
+            return response
+        })
+    },
+    requestDeleteRole ({ commit, state, dispatch }, params) {
+        return ajax.post(`${AJAX_URL}/delete_role`, params).then(response => {
             return response
         })
     }
