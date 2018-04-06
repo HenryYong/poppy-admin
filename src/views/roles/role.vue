@@ -1,10 +1,10 @@
 <template>
-    <div class="role-scope"
-        v-loading="loading">
+    <div class="role-scope">
         <inner-header class="mb20"
             :title="`${pageType === 'CreateRole' ? '新增' : '编辑'}角色`">
         </inner-header>
-        <section class="form-wrapper">
+        <section class="form-wrapper"
+            v-loading="loading">
             <el-form
                 ref="roleForm"
                 label-width='70px'
@@ -112,14 +112,12 @@
                     } = this
                     let res
 
+                    this.loading = true
+
                     if (isCreate) { // 新增
                         res = await $store.dispatch('roles/requestCreateRole', {
                             role_id: roleId,
                             role_name: roleName
-                        })
-
-                        this.$router.push({
-                            name: 'Roles'
                         })
                     } else { // 编辑
                         res = await $store.dispatch('roles/requestEditRole', {
@@ -129,10 +127,19 @@
                         })
                     }
                     
-                    this.$message.success(`${isCreate ? '新增' : '编辑'}角色成功`)
+                    this.$message.success(`${isCreate ? '新增' : '编辑'}角色成功，正在跳转...`)
+                    setTimeout(() => {
+                        this.$router.push({
+                            name: 'Roles'
+                        })
+                    }, 500)
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}角色接口错误`)
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 200)
                 }
             },
             delRole () {

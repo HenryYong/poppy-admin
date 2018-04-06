@@ -17,6 +17,15 @@
                 </el-form-item>
                 <el-form-item label="密码">
                     <el-input
+                        v-if="pageType === 'EditUser'"
+                        type="password"
+                        disabled
+                        value="******"
+                        placeholder="请输入密码">
+                    </el-input>
+                    <el-input
+                        v-else
+                        type="password"
                         v-model="config.password"
                         placeholder="请输入密码">
                     </el-input>
@@ -121,6 +130,8 @@
 
             if (this.pageType === 'EditUser') {
                 try {
+                    this.loading = true
+
                     let res = await $store.dispatch('users/requestOneUser', this.$route.params.userId)
                     let {
                         data
@@ -128,7 +139,6 @@
 
                     config.id = data.id
                     config.username = data.username
-                    config.password = data.password
                     config.email = data.email
                     config.link = data.personal_link
                     config.avatar = data.avatar
@@ -136,6 +146,10 @@
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn('获取用户接口错误')
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 200)
                 }
             }
         },
@@ -161,6 +175,8 @@
                     } = this
                     let res
 
+                    this.loading = true
+
                     if (isCreate) { // 新增
                         res = await this.$store.dispatch('users/requestCreateUser', {
                             username,
@@ -170,15 +186,11 @@
                             avatar,
                             role
                         })
-
-                        this.$router.push({
-                            name: 'Users'
-                        })
                     } else { // 编辑
                         res = await this.$store.dispatch('users/requestEditUser', {
                             id,
                             username,
-                            password,
+                            // password,
                             email,
                             link,
                             avatar,
@@ -190,9 +202,18 @@
                     }
                     
                     this.$message.success(`${isCreate ? '新增' : '编辑'}角色成功`)
+                    setTimeout(() => {
+                        this.$router.push({
+                            name: 'Users'
+                        })
+                    }, 500)
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}角色接口错误`)
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 200)
                 }
             },
             delUser () {
