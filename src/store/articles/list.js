@@ -94,5 +94,26 @@ export const actions = {
         return ajax.post(`${AJAX_URL}/delete_articles/`, { article_id: articleId }).then(response => {
             return response
         })
+    },
+    /**
+     * 根据条件获取文章
+     *
+     * @param {Function} commit store commit mutation handler
+     * @param {Object} state store state
+     * @param {Function} dispatch store dispatch action handler
+     * @param {Object} params 查找条件
+     *
+     * @return {Promise} promise 对象
+     */
+    requestArticleByCondition ({ commit, state, dispatch }, params) {
+        let query = ''
+
+        for (let key in params) {
+            query += `${query.length ? '&' : ''}${key}=${params[key]}`
+        }
+
+        return ajax.get(`${AJAX_URL}/articles/?${query}`).then(response => {
+            return response
+        })
     }
 }

@@ -74,7 +74,7 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestCategoriesForList ({ commit, state, dispatch }) {
-        return ajax.get(`${AJAX_URL}/categories/list/`).then(response => {
+        return ajax.get(`${AJAX_URL}/categories_list/`).then(response => {
             return response
         })
     },
@@ -105,6 +105,24 @@ export const actions = {
      */
     requestEditCategory ({ commit, state, dispatch }, params) {
         return ajax.post(`${AJAX_URL}/categories/`, params).then(response => {
+            return response
+        })
+    },
+    /**
+     * 删除分类
+     *
+     * @param {Function} commit store commit mutation handler
+     * @param {Object} state store state
+     * @param {Function} dispatch store dispatch action handler
+     * @param {Number} id 分类id
+     *
+     * @return {Promise} promise 对象
+     */
+    requestDeleteCategory ({ commit, state, dispatch }, id) {
+        console.log('id', id)
+        return ajax.post(`${AJAX_URL}/delete_category/`, {
+            id
+        }).then(response => {
             return response
         })
     }

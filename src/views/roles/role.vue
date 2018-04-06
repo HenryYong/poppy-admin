@@ -1,5 +1,6 @@
 <template>
-    <div class="role-scope">
+    <div class="role-scope"
+        v-loading="loading">
         <inner-header class="mb20"
             :title="`${pageType === 'CreateRole' ? '新增' : '编辑'}角色`">
         </inner-header>
@@ -32,6 +33,12 @@
                         })">
                         取消
                     </el-button>
+                    <el-button class="fr"
+                        v-if="pageType === 'EditRole'"
+                        type="danger"
+                        @click="delRole">
+                        删除
+                    </el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -55,7 +62,8 @@
                     id: 0,
                     roleId: '',
                     roleName: ''
-                }
+                },
+                loading: false
             }
         },
         async created () {
@@ -64,7 +72,10 @@
                     let {
                         config
                     } = this
-                    let res = await this.$store.dispatch('admin/requestOneRole', this.$route.params.roleId)
+
+                    this.loading = true
+
+                    let res = await this.$store.dispatch('roles/requestOneRole', this.$route.params.roleId)
                     let {
                         data
                     } = res
@@ -75,6 +86,10 @@
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn('获取角色接口错误')
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 200)
                 }
             }
         },
@@ -92,12 +107,13 @@
                             roleId,
                             roleName
                         },
-                        config
+                        config,
+                        $store
                     } = this
                     let res
 
                     if (isCreate) { // 新增
-                        res = await this.$store.dispatch('admin/requestCreateRole', {
+                        res = await $store.dispatch('roles/requestCreateRole', {
                             role_id: roleId,
                             role_name: roleName
                         })
@@ -106,7 +122,7 @@
                             name: 'Roles'
                         })
                     } else { // 编辑
-                        res = await this.$store.dispatch('admin/requestEditRole', {
+                        res = await $store.dispatch('roles/requestEditRole', {
                             id,
                             role_id: roleId,
                             role_name: roleName
@@ -118,6 +134,43 @@
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}角色接口错误`)
                 }
+            },
+            async delRole () {
+                this.$confirm('确定删除当前角色？', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(async () => {
+                    try {
+                        let {
+                            config: {
+                                id,
+                                roleId
+                            }
+                        } = this
+
+                        this.loading = true
+
+                        let res = await this.$store.dispatch('roles/requestDeleteRole', {
+                            id,
+                            role: roleId
+                        })
+
+                        this.$message.success('删除成功，正在跳转...')
+                        setTimeout(() => {
+                            this.$router.replace({
+                                name: 'Roles'
+                            })
+                        }, 500)
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn(`删除角色接口错误`)
+                    } finally {
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 200)
+                    }
+                })
             }
         },
         components: {

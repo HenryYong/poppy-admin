@@ -51,8 +51,18 @@ export const actions = {
      *
      * @return {Promise} promise 对象
      */
-    requestTagByCategory ({ commit, state, dispatch }, category) {
-        return ajax.get(`${AJAX_URL}/tags/?category=${category}`).then(response => {
+    requestTagByCategory ({ commit, state, dispatch }, params) {
+        let id = params.id
+        let category = params.category
+        let request = '?'
+
+        if (id) {
+            request += `id=${id}`
+        } else {
+            request += `category=${category}`
+        }
+
+        return ajax.get(`${AJAX_URL}/tags/${request}`).then(response => {
             return response
         })
     },

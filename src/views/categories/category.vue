@@ -31,6 +31,12 @@
                         })">
                         取消
                     </el-button>
+                    <el-button class="fr"
+                        v-if="pageType === 'EditCategory'"
+                        type="danger"
+                        @click="delCategory">
+                        删除
+                    </el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -54,7 +60,7 @@
                 config: {
                     id: 0,
                     name: '',
-                    enable: ''
+                    enable: false
                 },
                 loading: false
             }
@@ -68,8 +74,8 @@
 
                     this.loading = true
 
-                    let res = await this.$store.dispatch('admin/requestCategoryList', this.$route.params.categoryId)
-                    let data = res.data[0]
+                    let res = await this.$store.dispatch('categories/requestCategoryList', this.$route.params.categoryId)
+                    let data = res.data
 
                     config.id = data.id
                     config.name = data.name
@@ -89,8 +95,8 @@
                 let {
                     pageType
                 } = this
-
                 let isCreate = pageType === 'CreateCategory'
+
                 try {
                     let {
                         config: {
@@ -102,17 +108,21 @@
                     } = this
                     let res
 
+                    this.loading = true
+
                     if (isCreate) { // 新增
-                        res = await this.$store.dispatch('admin/requestCreateCategory', {
+                        res = await this.$store.dispatch('categories/requestCreateCategory', {
                             name,
                             enable
                         })
 
-                        this.$router.push({
-                            name: 'Categories'
-                        })
+                        setTimeout(() => {
+                            this.$router.push({
+                                name: 'Categories'
+                            })
+                        }, 1200)
                     } else { // 编辑
-                        res = await this.$store.dispatch('admin/requestEditCategory', {
+                        res = await this.$store.dispatch('categories/requestEditCategory', {
                             id,
                             name,
                             enable
@@ -123,7 +133,74 @@
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}分类接口错误`)
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 1000)
                 }
+            },
+            delCategory () {
+                let {
+                    config: {
+                        id
+                    },
+                    $store
+                } = this
+                let articleCount
+                let tagsCount
+                let res
+
+                this.$confirm('确定删除分类？', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(async () => {
+                    this.loading = true
+
+                    try {
+                        res = await $store.dispatch('articles/requestArticleByCondition', { id })
+                        let count = Object.keys(res.data).length
+
+                        articleCount = count
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn('请求分类下文章数接口错误')
+                        this.loading = false
+                    }
+
+                    try {
+                        res = await $store.dispatch('tags/requestTagByCategory', { id })
+                        let count = res.data.length
+                        
+                        tagsCount = count
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn('请求分类下标签数接口错误')
+                        this.loading = false
+                    }
+
+                    if (articleCount || tagsCount) {
+                        this.$message.error('请先删除当前分类下所有文章或标签')
+                    } else {
+                        try {
+                            let res = await $store.dispatch('categories/requestDeleteCategory', id)
+
+                            this.$message.success(`${res.message}, 正在跳转...`)
+                            setTimeout(() => {
+                                this.$router.push({
+                                    name: 'Categories'
+                                })
+                            }, 1000)
+                        } catch (err) {
+                            this.$message.error(`${err.data ? err.data.message : err}`)
+                            console.warn('删除分类接口错误')
+                        }
+                    }
+
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 1000)
+                })
             }
         },
         components: {
