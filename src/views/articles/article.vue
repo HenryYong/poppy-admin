@@ -344,10 +344,18 @@
                             }
 
                             this.$message.success(res.message)
+                            setTimeout(() => {
+                                this.$router.push({
+                                    name: 'Articles'
+                                })
+                            }, 500)
                         } catch (err) {
                             console.error(err)
                             this.$message.error(`${err.data ? err.data.message : err}`)
                         } finally {
+                            setTimeout(() => {
+                                this.loading = false
+                            }, 200)
                             this.loading = false
                         }
                     } else {
@@ -377,17 +385,19 @@
                         type = 'success'
 
                         setTimeout(() => {
-                            this.$router.push({
+                            this.$router.replace({
                                 name: 'Articles'
                             })
-                        }, 200)
+                        }, 500)
                     } catch (err) {
                         console.error(err)
                         msg = err.data.message
                         type = 'error'
                     } finally {
                         this.$message[type](msg)
-                        this.loading = false
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 200)
                     }
                 })
             }
@@ -399,6 +409,8 @@
             } = this
 
             try {
+                this.loading = true
+
                 let res = await $store.dispatch('categories/requestCategoriesForList')
                 this.categoryList.splice(0, this.categoryList.length, ...res.data)
 
@@ -427,6 +439,10 @@
             } catch (err) {
                 this.$message.error(`${err.data ? err.data.message : err}`)
                 console.warn('分类列表请求错误')
+            } finally {
+                setTimeout(() => {
+                    this.loading = false
+                }, 200)
             }
 
             this.editorConfig.height = document.body.offsetHeight * 0.5
@@ -434,10 +450,6 @@
             window.onresize = () => {
                 this.editorConfig.height = document.body.offsetHeight * 0.5
             }
-
-            setTimeout(() => {
-                this.loading = false
-            }, 200)
         },
         components: {
             innerHeader,

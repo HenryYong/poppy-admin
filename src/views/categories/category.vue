@@ -1,10 +1,10 @@
 <template>
-    <div class="category-scope"
-        v-loading="loading">
+    <div class="category-scope">
         <inner-header class="mb20"
             :title="`${pageType === 'CreateCategory' ? '新增' : '编辑'}分类`">
         </inner-header>
-        <section class="form-wrapper">
+        <section class="form-wrapper"
+            v-loading="loading">
             <el-form
                 ref="categoryForm"
                 label-width='70px'
@@ -115,12 +115,6 @@
                             name,
                             enable
                         })
-
-                        setTimeout(() => {
-                            this.$router.push({
-                                name: 'Categories'
-                            })
-                        }, 1200)
                     } else { // 编辑
                         res = await this.$store.dispatch('categories/requestEditCategory', {
                             id,
@@ -130,13 +124,18 @@
                     }
                     
                     this.$message.success(`${isCreate ? '新增' : '编辑'}分类成功`)
+                    setTimeout(() => {
+                        this.$router.push({
+                            name: 'Categories'
+                        })
+                    }, 500)
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}分类接口错误`)
                 } finally {
                     setTimeout(() => {
                         this.loading = false
-                    }, 1000)
+                    }, 200)
                 }
             },
             delCategory () {
@@ -172,7 +171,7 @@
                         this.$message.success('删除成功，正在跳转...')
                         setTimeout(() => {
                             this.$router.replace({
-                                name: 'Users'
+                                name: 'Categories'
                             })
                         }, 500)
                     } catch (err) {

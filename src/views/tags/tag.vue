@@ -89,8 +89,6 @@
             } = this
 
             try {
-                this.loading = true
-
                 let res = await $store.dispatch('categories/requestCategoriesForList')
 
                 this.categoryList.splice(0, this.categoryList.length, ...res.data)
@@ -101,6 +99,8 @@
 
             if (pageType === 'EditTag') {
                 try {
+                    this.loading = true
+
                     let res = await $store.dispatch('tags/requestOneTag', this.$route.params.tagId)
                     let data = res.data
 
@@ -111,12 +111,12 @@
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn('获取标签接口错误')
+                } finally {
+                    setTimeout(() => {
+                        this.loading = false
+                    }, 200)
                 }
             }
-
-            setTimeout(() => {
-                this.loading = false
-            }, 200)
         },
         methods: {
             async submit () {
@@ -145,10 +145,6 @@
                             category,
                             enable
                         })
-
-                        this.$router.push({
-                            name: 'Tags'
-                        })
                     } else { // 编辑
                         res = await this.$store.dispatch('tags/requestEditTag', {
                             id,
@@ -159,6 +155,11 @@
                     }
                     
                     this.$message.success(`${isCreate ? '新增' : '编辑'}标签成功`)
+                    setTimeout(() => {
+                        this.$router.push({
+                            name: 'Tags'
+                        })
+                    }, 500)
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}标签接口错误`)

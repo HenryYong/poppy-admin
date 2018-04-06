@@ -91,7 +91,7 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestDeleteArticle ({ commit, state, dispatch }, articleId) {
-        return ajax.post(`${AJAX_URL}/delete_articles/`, { article_id: articleId }).then(response => {
+        return ajax.post(`${AJAX_URL}/delete_article/`, { article_id: articleId }).then(response => {
             return response
         })
     },
