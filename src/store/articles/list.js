@@ -76,7 +76,7 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestUpdateArticle ({ commit, state, dispatch }, params) {
-        return ajax.post(`${AJAX_URL}/articles/`, params).then(response => {
+        return ajax.post(`${AJAX_URL}/article/`, params).then(response => {
             return response
         })
     },
