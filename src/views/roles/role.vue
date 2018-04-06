@@ -135,7 +135,7 @@
                     console.warn(`${isCreate ? '新增' : '编辑'}角色接口错误`)
                 }
             },
-            async delRole () {
+            delRole () {
                 this.$confirm('确定删除当前角色？', '警告', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',

@@ -92,7 +92,12 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestEditTag ({ commit, state, dispatch }, params) {
-        return ajax.post(`${AJAX_URL}/tags/`, params).then(response => {
+        return ajax.post(`${AJAX_URL}/tag/`, params).then(response => {
+            return response
+        })
+    },
+    requestDeleteTag ({ commit, state, dispatch }, params) {
+        return ajax.post(`${AJAX_URL}/delete_tag/`, params).then(response => {
             return response
         })
     }

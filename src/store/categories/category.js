@@ -104,7 +104,7 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestEditCategory ({ commit, state, dispatch }, params) {
-        return ajax.post(`${AJAX_URL}/categories/`, params).then(response => {
+        return ajax.post(`${AJAX_URL}/category/`, params).then(response => {
             return response
         })
     },
@@ -118,11 +118,8 @@ export const actions = {
      *
      * @return {Promise} promise 对象
      */
-    requestDeleteCategory ({ commit, state, dispatch }, id) {
-        console.log('id', id)
-        return ajax.post(`${AJAX_URL}/delete_category/`, {
-            id
-        }).then(response => {
+    requestDeleteCategory ({ commit, state, dispatch }, params) {
+        return ajax.post(`${AJAX_URL}/delete_category/`, params).then(response => {
             return response
         })
     }

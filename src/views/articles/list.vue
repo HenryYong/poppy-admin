@@ -71,7 +71,12 @@
             try {
                 let res = await this.$store.dispatch('articles/requestArticlesList')
 
-                this.renderList.splice(0, this.renderList.length, ...res.data)
+                this.renderList.splice(0, this.renderList.length, ...res.data.map(item => {
+                    item.create_time = formatTime(item.create_time)
+                    item.update_time = formatTime(item.update_time)
+
+                    return item
+                }))
                 this.showContent = true
             } catch (err) {
                 this.$message.error(`${err.data ? err.data.message : err}`)

@@ -226,7 +226,9 @@
                     let {
                         $store
                     } = this
-                    let res = await $store.dispatch('tags/requestTagByCategory', category)
+                    let res = await $store.dispatch('tags/requestTagByCategory', {
+                        category
+                    })
                     
                     this.tagsList.splice(0, this.tagsList.length, ...res.data)
                 } catch (err) {
@@ -414,7 +416,7 @@
                         ruleArticle.content = response.content
                         ruleArticle.category = response.category
                         ruleArticle.tags.splice(0, ruleArticle.tags.length, ...response.tags.split(','))
-                        this.seoTagList.splice(0, this.seoTagList.length, ...response.seo_tags.split(','))
+                        response.seo_tags.length && this.seoTagList.splice(0, this.seoTagList.length, ...response.seo_tags.split(','))
 
                         this.cacheArticle = JSON.parse(JSON.stringify(response))
                     } catch (err) {

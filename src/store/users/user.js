@@ -67,7 +67,12 @@ export const actions = {
      * @return {Promise} promise 对象
      */
     requestEditUser ({ commit, state, dispatch }, params) {
-        return ajax.post(`${AJAX_URL}/users/`, params).then(response => {
+        return ajax.post(`${AJAX_URL}/user/`, params).then(response => {
+            return response
+        })
+    },
+    requestDeleteUser ({ commit, state, dispatch }, params) {
+        return ajax.post(`${AJAX_URL}/delete_user/`, params).then(response => {
             return response
         })
     }

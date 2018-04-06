@@ -1,10 +1,10 @@
 <template>
-    <div class="tag-scope"
-        v-loading="loading">
+    <div class="tag-scope">
         <inner-header class="mb20"
             :title="`${pageType === 'CreateTag' ? '新增' : '编辑'}标签`">
         </inner-header>
-        <section class="form-wrapper">
+        <section class="form-wrapper"
+        v-loading="loading">
             <el-form
                 ref="tagForm"
                 label-width='70px'
@@ -42,6 +42,12 @@
                             name: 'Tags'
                         })">
                         取消
+                    </el-button>
+                    <el-button class="fr"
+                        v-if="pageType === 'EditTag'"
+                        type="danger"
+                        @click="delTag">
+                        删除
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -96,7 +102,7 @@
             if (pageType === 'EditTag') {
                 try {
                     let res = await $store.dispatch('tags/requestOneTag', this.$route.params.tagId)
-                    let data = res.data[0]
+                    let data = res.data
 
                     config.id = data.id
                     config.name = data.name
@@ -144,7 +150,7 @@
                             name: 'Tags'
                         })
                     } else { // 编辑
-                        res = await this.$store.dispatch('admin/requestEditTag', {
+                        res = await this.$store.dispatch('tags/requestEditTag', {
                             id,
                             name,
                             category,
@@ -161,6 +167,49 @@
                         this.loading = false
                     }, 200)
                 }
+            },
+            async delTag () {
+                let {
+                    config: {
+                        id
+                    },
+                    $store
+                } = this
+                let articleCount
+
+                this.$confirm('确定删除标签？', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(async () => {
+                    try {
+                        let {
+                            config: {
+                                id
+                            }
+                        } = this
+
+                        this.loading = true
+
+                        let res = await this.$store.dispatch('tags/requestDeleteTag', {
+                            id
+                        })
+
+                        this.$message.success('删除成功，正在跳转...')
+                        setTimeout(() => {
+                            this.$router.replace({
+                                name: 'Tags'
+                            })
+                        }, 500)
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn(`删除标签接口错误`)
+                    } finally {
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 200)
+                    }
+                })
             }
         },
         components: {

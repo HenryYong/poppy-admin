@@ -155,51 +155,34 @@
                     cancelButtonText: '取消',
                     type: 'error'
                 }).then(async () => {
-                    this.loading = true
-
                     try {
-                        res = await $store.dispatch('articles/requestArticleByCondition', { id })
-                        let count = Object.keys(res.data).length
+                        let {
+                            config: {
+                                id,
+                                username
+                            }
+                        } = this
 
-                        articleCount = count
+                        this.loading = true
+
+                        let res = await this.$store.dispatch('categories/requestDeleteCategory', {
+                            id
+                        })
+
+                        this.$message.success('删除成功，正在跳转...')
+                        setTimeout(() => {
+                            this.$router.replace({
+                                name: 'Users'
+                            })
+                        }, 500)
                     } catch (err) {
                         this.$message.error(`${err.data ? err.data.message : err}`)
-                        console.warn('请求分类下文章数接口错误')
-                        this.loading = false
+                        console.warn(`删除分类接口错误`)
+                    } finally {
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 200)
                     }
-
-                    try {
-                        res = await $store.dispatch('tags/requestTagByCategory', { id })
-                        let count = res.data.length
-                        
-                        tagsCount = count
-                    } catch (err) {
-                        this.$message.error(`${err.data ? err.data.message : err}`)
-                        console.warn('请求分类下标签数接口错误')
-                        this.loading = false
-                    }
-
-                    if (articleCount || tagsCount) {
-                        this.$message.error('请先删除当前分类下所有文章或标签')
-                    } else {
-                        try {
-                            let res = await $store.dispatch('categories/requestDeleteCategory', id)
-
-                            this.$message.success(`${res.message}, 正在跳转...`)
-                            setTimeout(() => {
-                                this.$router.push({
-                                    name: 'Categories'
-                                })
-                            }, 1000)
-                        } catch (err) {
-                            this.$message.error(`${err.data ? err.data.message : err}`)
-                            console.warn('删除分类接口错误')
-                        }
-                    }
-
-                    setTimeout(() => {
-                        this.loading = false
-                    }, 1000)
                 })
             }
         },

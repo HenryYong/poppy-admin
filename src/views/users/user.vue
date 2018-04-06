@@ -3,7 +3,8 @@
         <inner-header class="mb20"
             :title="`${pageType === 'CreateUser' ? '新增' : '编辑'}用户`">
         </inner-header>
-        <section class="form-wrapper">
+        <section class="form-wrapper"
+            v-loading="loading">
             <el-form
                 ref="userForm"
                 label-width='70px'
@@ -62,6 +63,12 @@
                         })">
                         取消
                     </el-button>
+                    <el-button class="fr"
+                        v-if="pageType === 'EditUser'"
+                        type="danger"
+                        @click="delUser">
+                        删除
+                    </el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -78,6 +85,7 @@
         Select,
         Option
     } from 'element-ui'
+    import auth from 'src/utils/auth'
 
     export default {
         data () {
@@ -92,7 +100,8 @@
                     avatar: '',
                     role: ''
                 },
-                roleList: []
+                roleList: [],
+                loading: false
             }
         },
         async created () {
@@ -112,7 +121,7 @@
 
             if (this.pageType === 'EditUser') {
                 try {
-                    let res = await $store.dispatch('admin/requestOneUser', this.$route.params.userId)
+                    let res = await $store.dispatch('users/requestOneUser', this.$route.params.userId)
                     let {
                         data
                     } = res
@@ -153,7 +162,7 @@
                     let res
 
                     if (isCreate) { // 新增
-                        res = await this.$store.dispatch('admin/requestCreateUser', {
+                        res = await this.$store.dispatch('users/requestCreateUser', {
                             username,
                             password,
                             email,
@@ -166,7 +175,7 @@
                             name: 'Users'
                         })
                     } else { // 编辑
-                        res = await this.$store.dispatch('admin/requestEditUser', {
+                        res = await this.$store.dispatch('users/requestEditUser', {
                             id,
                             username,
                             password,
@@ -175,6 +184,9 @@
                             avatar,
                             role
                         })
+
+                        // 编辑用户信息后更新localStorage
+                        auth.setJWT(res.data.token)
                     }
                     
                     this.$message.success(`${isCreate ? '新增' : '编辑'}角色成功`)
@@ -182,6 +194,42 @@
                     this.$message.error(`${err.data ? err.data.message : err}`)
                     console.warn(`${isCreate ? '新增' : '编辑'}角色接口错误`)
                 }
+            },
+            delUser () {
+                this.$confirm('确定删除当前用户？', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(async () => {
+                    try {
+                        let {
+                            config: {
+                                id,
+                                username
+                            }
+                        } = this
+
+                        this.loading = true
+
+                        let res = await this.$store.dispatch('users/requestDeleteUser', {
+                            id
+                        })
+
+                        this.$message.success('删除成功，正在跳转...')
+                        setTimeout(() => {
+                            this.$router.replace({
+                                name: 'Users'
+                            })
+                        }, 500)
+                    } catch (err) {
+                        this.$message.error(`${err.data ? err.data.message : err}`)
+                        console.warn(`删除用户接口错误`)
+                    } finally {
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 200)
+                    }
+                })
             }
         },
         components: {
