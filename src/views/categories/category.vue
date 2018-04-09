@@ -60,7 +60,7 @@
                 config: {
                     id: 0,
                     name: '',
-                    enable: false
+                    enable: true
                 },
                 loading: false
             }

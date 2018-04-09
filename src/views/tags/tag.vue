@@ -75,7 +75,7 @@
                     id: 0,
                     name: '',
                     category: '',
-                    enable: ''
+                    enable: true
                 },
                 categoryList: [],
                 loading: false
