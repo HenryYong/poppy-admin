@@ -105,7 +105,7 @@ export function styleLoaders (options) {
             })
         }
     }
-    console.log(output)
+
     /* eslint-enable fecs-use-for-of */
     return output
 }

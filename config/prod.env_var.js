@@ -18,7 +18,8 @@ if (process.env.NODE_ENV !== 'development') {
         COMMON_AJAX_URL: stringify(url),
         AJAX_URL: stringify(`${url}/admin`),
         ADMIN_AJAX_URL: stringify(`${url}/admin`),
-        CLIENT_AJAX_URL: stringify(`${url}/client`)
+        CLIENT_AJAX_URL: stringify(`${url}/client`),
+        DOMAIN: stringify(`www.sephenry.cn`)
     }
 }
 

@@ -18,7 +18,8 @@ module.exports = {
 		COMMON_AJAX_URL: true,
 		AJAX_URL: true,
 		ADMIN_AJAX_URL: true,
-		CLIENT_AJAX_URL: true
+        CLIENT_AJAX_URL: true,
+        DOMAIN: true
 	},
 	// custom rules
 	"rules": {

@@ -5,8 +5,6 @@
 
 import ajax from './ajax'
 
-const lsKey = `${NODE_ENV === 'production' ? 'www' : `${NODE_ENV}`}.sephenry.cn`
-
 export default {
     validateUser () {
         return new Promise((resolve, reject) => {
@@ -32,9 +30,9 @@ export default {
         })
     },
     setJWT (jwt) {
-        localStorage.setItem(lsKey, jwt)
+        localStorage.setItem(DOMAIN, jwt)
     },
     getJWT () {
-        return localStorage.getItem(lsKey) || ''
+        return localStorage.getItem(DOMAIN) || ''
     }
 }
