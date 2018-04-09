@@ -55,10 +55,6 @@ devMiddleware.waitUntilValid(() => {
     _resolve()
 })
 
-// if (autoOpenBrowser) {
-//     opn('http://dev.sephenry.cn:8002')
-// }
-
 const server = koa.listen(port, () => {
     console.log(`app listen at ${port}`)
 })

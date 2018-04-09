@@ -31,9 +31,7 @@ const webpackConfig = merge(baseConfig, {
 })
 
 Object.keys(webpackConfig.entry).forEach(function (name) {
-    console.log('name', name)
     webpackConfig.entry[name] = ['./build/dev-reload'].concat(webpackConfig.entry[name])
 })
 
-console.log(webpackConfig)
 export default webpackConfig

@@ -39,7 +39,8 @@
                             v-model="ruleArticle.content"
                             @imgAdd="imgAdd"
                             @imgDel="imgDel"
-                            @change="syncContent">
+                            @change="syncContent"
+                            @save="saveContentLocal">
                         </mavon-editor>
                     </div>
                 </el-form-item>
@@ -287,6 +288,9 @@
             syncContent (val, render) {
                 this.renderContent = render.replace(/\n/g, '')
             },
+            saveContentLocal (val) {
+                localStorage.setItem(`${DOMAIN}-article`, val)
+            },
             /**
              * 整理需要的参数
              */
@@ -345,6 +349,7 @@
 
                             this.$message.success(res.message)
                             setTimeout(() => {
+                                localStorage.removeItem(`${DOMAIN}-article`)
                                 this.$router.push({
                                     name: 'Articles'
                                 })
@@ -356,7 +361,6 @@
                             setTimeout(() => {
                                 this.loading = false
                             }, 200)
-                            this.loading = false
                         }
                     } else {
                         this.$message.error('请填写相关必填项')
@@ -385,6 +389,7 @@
                         type = 'success'
 
                         setTimeout(() => {
+                            localStorage.removeItem(`${DOMAIN}-article`)
                             this.$router.replace({
                                 name: 'Articles'
                             })
@@ -417,6 +422,7 @@
                 let {
                     ruleArticle
                 } = this
+                let localContent = localStorage.getItem(`${DOMAIN}-article`)
 
                 // 编辑文章
                 if (this.pageType === 'EditArticle') {
@@ -425,7 +431,7 @@
                         let response = articleRes.data
 
                         ruleArticle.title = response.title
-                        ruleArticle.content = response.content
+                        ruleArticle.content = localContent || response.content // 编辑时先取本地缓存的文章内容，若没有，再使用请求回来的内容
                         ruleArticle.category = response.category
                         ruleArticle.tags.splice(0, ruleArticle.tags.length, ...response.tags.split(','))
                         response.seo_tags.length && this.seoTagList.splice(0, this.seoTagList.length, ...response.seo_tags.split(','))
@@ -435,6 +441,8 @@
                         this.$message.error(`${err.data ? err.data.message : err}`)
                         console.warn('文章内容请求错误')
                     }
+                } else { // 新增文章时显示本地缓存的内容
+                    ruleArticle.content = localStorage.getItem(`${DOMAIN}-article`) || ''
                 }
             } catch (err) {
                 this.$message.error(`${err.data ? err.data.message : err}`)
