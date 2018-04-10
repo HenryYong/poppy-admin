@@ -42,6 +42,7 @@
                             @change="syncContent"
                             @save="saveContentLocal">
                         </mavon-editor>
+                        <p class="tips">Ctrl + S 可以本地缓存文章内容</p>
                     </div>
                 </el-form-item>
                 <!-- 文章内容 end -->
@@ -290,6 +291,10 @@
             },
             saveContentLocal (val) {
                 localStorage.setItem(`${DOMAIN}-article`, val)
+                this.$message.success({
+                    message: '本地缓存成功',
+                    duration: 1500
+                })
             },
             /**
              * 整理需要的参数
