@@ -52,8 +52,7 @@
                     <el-select
                         v-model="ruleArticle.category"
                         clearable
-                        placeholder="请选择文章分类"
-                        @clear="tagsList.splice(0)">
+                        placeholder="请选择文章分类">
                         <el-option
                             v-for="cate of categoryList"
                             :key="cate.name"
@@ -66,7 +65,19 @@
 
                 <!-- 文章标签 start -->
                 <el-form-item class="article-tags-row" label="文章标签" prop="tags">
-                    <template v-if="tagsList.length">
+                    <el-select
+                        v-model="ruleArticle.tags"
+                        clearable
+                        multiple
+                        placeholder="请选择文章标签">
+                        <el-option
+                            v-for="tag of tagsList"
+                            :key="tag.name"
+                            :label="tag.name"
+                            :value="tag.name">
+                        </el-option>
+                    </el-select>
+                    <!-- <template v-if="tagsList.length">
                         <el-checkbox-group
                             v-model="ruleArticle.tags"
                             size="small">
@@ -81,7 +92,7 @@
                     </template>
                     <template v-else>
                         <p class="tips">请选择文章分类</p>
-                    </template>
+                    </template> -->
                 </el-form-item>
                 <!-- 文章标签 end -->
 
@@ -212,32 +223,7 @@
                 }
             }
         },
-        watch: {
-            'ruleArticle.category': async function (val) {
-                if (val) {
-                    await this.changeCategory(val)
-                }
-            }
-        },
         methods: {
-            /**
-             * 切换分类
-             */
-            async changeCategory (category) {
-                try {
-                    let {
-                        $store
-                    } = this
-                    let res = await $store.dispatch('tags/requestTagByCategory', {
-                        category
-                    })
-                    
-                    this.tagsList.splice(0, this.tagsList.length, ...res.data)
-                } catch (err) {
-                    this.$message.error(`${err.data ? err.data.message : err}`)
-                    console.warn('获取标签接口错误')
-                }
-            },
             /**
              * 添加图片
              */
@@ -421,8 +407,11 @@
             try {
                 this.loading = true
 
-                let res = await $store.dispatch('categories/requestCategoriesForList')
-                this.categoryList.splice(0, this.categoryList.length, ...res.data)
+                let resCategory = await $store.dispatch('categories/requestCategoriesForList')
+                this.categoryList.splice(0, this.categoryList.length, ...resCategory.data)
+
+                let resTag = await $store.dispatch('tags/requestTagList')
+                this.tagsList.splice(0, this.tagsList.length, ...resTag.data)
 
                 let {
                     ruleArticle

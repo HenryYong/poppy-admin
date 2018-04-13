@@ -15,18 +15,6 @@
                         placeholder="请输入标签名">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="所属分类">
-                    <el-select
-                        v-model="config.category"
-                        placeholder="请选择所属分类">
-                        <el-option
-                            v-for="cate of categoryList"
-                            :key="cate.name"
-                            :label="cate.name"
-                            :value="cate.name">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
                 <el-form-item label="是否启用">
                     <el-radio v-model="config.enable" :label="true">是</el-radio>
                     <el-radio v-model="config.enable" :label="false">否</el-radio>
@@ -74,10 +62,8 @@
                 config: {
                     id: 0,
                     name: '',
-                    category: '',
                     enable: true
                 },
-                categoryList: [],
                 loading: false
             }
         },
@@ -88,15 +74,6 @@
                 pageType
             } = this
 
-            try {
-                let res = await $store.dispatch('categories/requestCategoriesForList')
-
-                this.categoryList.splice(0, this.categoryList.length, ...res.data)
-            } catch (err) {
-                this.$message.error(`${err.data ? err.data.message : err}`)
-                console.warn('获取分类接口错误')
-            }
-
             if (pageType === 'EditTag') {
                 try {
                     this.loading = true
@@ -106,7 +83,6 @@
 
                     config.id = data.id
                     config.name = data.name
-                    config.category = data.category
                     config.enable = data.enable
                 } catch (err) {
                     this.$message.error(`${err.data ? err.data.message : err}`)
@@ -130,7 +106,6 @@
                         config: {
                             id,
                             name,
-                            category,
                             enable
                         },
                         config
@@ -142,14 +117,12 @@
                     if (isCreate) { // 新增
                         res = await this.$store.dispatch('tags/requestCreateTag', {
                             name,
-                            category,
                             enable
                         })
                     } else { // 编辑
                         res = await this.$store.dispatch('tags/requestEditTag', {
                             id,
                             name,
-                            category,
                             enable
                         })
                     }
