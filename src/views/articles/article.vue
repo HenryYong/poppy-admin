@@ -77,22 +77,6 @@
                             :value="tag.name">
                         </el-option>
                     </el-select>
-                    <!-- <template v-if="tagsList.length">
-                        <el-checkbox-group
-                            v-model="ruleArticle.tags"
-                            size="small">
-                            <el-checkbox
-                                v-for="tag of tagsList"
-                                border
-                                name="tags"
-                                :key="tag.name"
-                                :label="tag.name">
-                            </el-checkbox>
-                        </el-checkbox-group>
-                    </template>
-                    <template v-else>
-                        <p class="tips">请选择文章分类</p>
-                    </template> -->
                 </el-form-item>
                 <!-- 文章标签 end -->
 
@@ -325,6 +309,7 @@
                             
                             let res
 
+                            // 新增文章
                             if (this.pageType === 'CreateArticle') {
                                 res = await this.$store.dispatch('articles/requestCreateArticle', params)
 
@@ -333,7 +318,7 @@
                                         name: 'Articles'
                                     })
                                 }, 200)
-                            } else {
+                            } else { // 编辑文章
                                 params.article_id = this.cacheArticle.article_id
                                 res = await this.$store.dispatch('articles/requestUpdateArticle', params)
                             }
