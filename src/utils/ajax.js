@@ -37,8 +37,11 @@ instance.interceptors.response.use(response => {
             code: response.status,
             message: '后端接口返回为空'
         }
-    } else if (response.status === 403) {
-        // 未登录
+    } else if (response.status === 401) {
+        // 未登录或登录信息过期
+        window.poppyVM.$router.push({
+            name: 'Auth'
+        })
     } else if (response.status >= 300) {
         console.error(`HTTP 请求出错，状态码：${response.status}`)
         response.data = {

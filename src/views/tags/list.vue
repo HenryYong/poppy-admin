@@ -28,10 +28,6 @@
                     label="创建人">
                 </el-table-column>
                 <el-table-column
-                    prop="category"
-                    label="所属类型">
-                </el-table-column>
-                <el-table-column
                     prop="create_time"
                     label="创建时间">
                 </el-table-column>
