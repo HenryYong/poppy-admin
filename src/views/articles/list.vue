@@ -1,6 +1,9 @@
 <template>
     <div class="articles-list">
-        <p class="inner-title">所有文章</p>
+         <inner-header class="mb20"
+            title="所有文章"
+            :has-go-back="false">
+        </inner-header>
         <section class="poppy-admin-content articles-content"
             v-if="showContent">
             <p class="create-article mb20">
@@ -53,6 +56,7 @@
     import {
         formatTime
     } from 'src/utils/utils'
+    import innerHeader from 'src/components/inner-header'
     import empty from 'src/components/empty'
     import {
         Button,
@@ -98,6 +102,7 @@
         },
         components: {
             empty,
+            innerHeader,
             'el-button': Button,
             'el-table': Table,
             'el-table-column': TableColumn

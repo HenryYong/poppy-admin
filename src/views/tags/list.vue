@@ -1,9 +1,9 @@
 <template>
     <div class="tags-list">
-        <innerHeader class="mb20"
+        <inner-header class="mb20"
             title="所有标签"
             :has-go-back="false">
-        </innerHeader>
+        </inner-header>
         <section class="poppy-admin-content tags-content"
             v-if="showContent">
             <p class="create-tag mb20">

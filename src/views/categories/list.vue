@@ -1,9 +1,9 @@
 <template>
     <div class="categories-list">
-        <innerHeader class="mb20"
+        <inner-header class="mb20"
             title="所有分类"
             :has-go-back="false">
-        </innerHeader>
+        </inner-header>
         <section class="poppy-admin-content categories-content"
             v-if="showContent">
             <p class="create-category mb20">
