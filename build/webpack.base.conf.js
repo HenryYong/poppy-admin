@@ -4,7 +4,6 @@
  */
 
 import path from 'path'
-import webpack from 'webpack'
 import ESLintFriendlyFormatter from 'eslint-friendly-formatter'
 
 import config from './../config'
