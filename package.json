@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev babel-node build/dev.js",
+    "test": "cross-env NODE_ENV=test node build/build-wrapper.js",
     "build": "cross-env NODE_ENV=production node build/build-wrapper.js",
     "build:analyzer": "cross-env NODE_ENV=production npm_config_report=1 node build/build-wrapper.js"
   },

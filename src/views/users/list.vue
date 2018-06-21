@@ -1,9 +1,9 @@
 <template>
     <div class="users-list">
-        <innerHeader class="mb20"
+        <inner-header class="mb20"
             title="所有用户"
             :has-go-back="false">
-        </innerHeader>
+        </inner-header>
         <section class="poppy-admin-content users-content"
             v-if="showContent">
             <p class="create-user mb20">
