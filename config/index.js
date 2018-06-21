@@ -9,7 +9,7 @@ import testEnvVar from './test.env_var'
 import prodEnvVar from './prod.env_var'
 
 export default {
-    prod: {
+    build: {
         envVar: prodEnvVar,
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
@@ -20,14 +20,7 @@ export default {
         bundleAnalyzerReport: process.env.npm_config_report
     },
     test: {
-        envVar: testEnvVar,
-        assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsPublicPath: '/',
-        assetsSubDirectory: 'admin/static',
-        productionSourceMap: true,
-        productionGzip: false,
-        productionGzipExtensions: ['js', 'css'],
-        bundleAnalyzerReport: process.env.npm_config_report
+        envVar: testEnvVar
     },
     dev: {
         port: 8005,
