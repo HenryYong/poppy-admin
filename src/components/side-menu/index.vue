@@ -6,7 +6,7 @@
       <div class="side-menu-list">
           <ul>
               <li class="side-menu-list-item"
-                v-for="(item, index) of sideMenuList"
+                v-for="item of sideMenuList"
                 :key="item.id"
                 :class="{
                     active: item.id === $route.name || (item.children && item.children.some(child => child === $route.name))
@@ -17,6 +17,11 @@
                   <span class="item-text">
                       {{ item.text }}
                   </span>
+              </li>
+              <li class="side-menu-list-item"
+                  @click="logout">
+                  <i class="item-icon icon-switch"></i>
+                  <span class="item-text">Logout</span>
               </li>
           </ul>
       </div>
@@ -37,6 +42,12 @@
                 this.$router.push({
                     name: id
                 })
+            },
+            logout () {
+                localStorage.removeItem(`${NODE_ENV === 'production' ? 'www' : NODE_ENV}.sephenry.cn`)
+                this.$router.replace({
+                    name: 'Auth'
+                })
             }
         }
     }
@@ -46,12 +57,8 @@
     @import './../../styles/conf';
 
     .side-menu {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
         width: 240px;
-        background-color: $grayLightest;
+        background-color: rgba(255, 255, 255, .5);
         .logo {
             padding: 40px 40px 11px;
             color: $primary;
@@ -67,9 +74,11 @@
                 align-items: center;
                 padding: 10px 0 10px 40px;
                 cursor: pointer;
+                color: $grayDarker;
                 &:hover {
                     [class^="item"] {
-                        color: $grayDarker;
+                        transition: color .3s linear;
+                        color: $blackLight;
                     }
                 }
                 &.active {
