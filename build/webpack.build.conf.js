@@ -24,6 +24,7 @@ import {
     assetsPath
 } from './utils'
 
+const buildConfig = config[process.env.NODE_ENV]
 const webpackConfig = merge(baseConfig, {
     entry: {
         'main': './src/main.js'
@@ -34,14 +35,14 @@ const webpackConfig = merge(baseConfig, {
         //     extract: true
         // })
     },
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
+    devtool: buildConfig.productionSourceMap ? '#source-map' : false,
     output: {
-        path: config.build.assetsRoot,
+        path: buildConfig.assetsRoot,
         filename: assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: assetsPath('js/[name].[chunkhash].js')
     },
     plugins: [
-        new webpack.DefinePlugin(config.build.envVar),
+        new webpack.DefinePlugin(buildConfig.envVar),
         new UglifyJS({
             uglifyOptions: {
                 compress: {
@@ -60,7 +61,7 @@ const webpackConfig = merge(baseConfig, {
             }
         }),
         new HTMLWebpackPlugin({
-            filename: resolve(config.build.assetsRoot + sep + config.build.assetsSubDirectory, '..') + '/index.html',
+            filename: resolve(buildConfig.assetsRoot + sep + buildConfig.assetsSubDirectory, '..') + '/index.html',
             template: 'index.html',
             inject: true,
             minify: {
@@ -94,26 +95,26 @@ const webpackConfig = merge(baseConfig, {
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
-                to: config.build.assetsSubDirectory,
+                to: buildConfig.assetsSubDirectory,
                 ignore: ['.*']
             }
         ])
     ]
 })
 
-if (config.build.productionGzip) {
+if (buildConfig.productionGzip) {
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
+            test: new RegExp('\\.(' + buildConfig.productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
         })
     )
 }
 
-if (config.build.bundleAnalyzerReport) {
+if (buildConfig.bundleAnalyzerReport) {
     const BundleAnalyzerPlugin = bundleAnalyzer.BundleAnalyzerPlugin
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }

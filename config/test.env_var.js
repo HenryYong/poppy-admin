@@ -7,7 +7,7 @@ const {
     stringify
 } = JSON
 const url = 'http://test.sephenry.cn:8888/api'
-console.log('test: ', url)
+
 export default {
     'process.env': {
         'NODE_ENV': stringify('test')

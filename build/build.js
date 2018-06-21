@@ -8,14 +8,15 @@ import chalk from 'chalk'
 import rm from 'rimraf'
 import webpack from 'webpack'
 import config from './../config'
-import webpackConfig from './webpack.prod.conf'
+import webpackConfig from './webpack.build.conf'
 
-const prodConfig = config.build
-const spinner = ora('building for production env')
+const NODE_ENV = process.env.NODE_ENV
+const buildConfig = config[NODE_ENV]
+const spinner = ora(`building for ${NODE_ENV} env`)
 
 spinner.start()
 
-rm(prodConfig.assetsRoot, (e) => {
+rm(buildConfig.assetsRoot, (e) => {
     if (e) {
         throw e
     }
