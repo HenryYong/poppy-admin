@@ -10,13 +10,11 @@ import webpack from 'webpack'
 import config from './../config'
 import webpackConfig from './webpack.build.conf'
 
-const NODE_ENV = process.env.NODE_ENV
-const buildConfig = config[NODE_ENV]
-const spinner = ora(`building for ${NODE_ENV} env`)
+const spinner = ora(`building for ${process.env.NODE_ENV} env`)
 
 spinner.start()
 
-rm(buildConfig.assetsRoot, (e) => {
+rm(config.build.assetsRoot, (e) => {
     if (e) {
         throw e
     }
