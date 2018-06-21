@@ -1,9 +1,9 @@
 <template>
     <div class="roles-list">
-        <innerHeader class="mb20"
+        <inner-header class="mb20"
             title="所有角色"
             :has-go-back="false">
-        </innerHeader>
+        </inner-header>
         <section class="poppy-admin-content roles-content"
             v-if="showContent">
             <p class="create-role mb20">

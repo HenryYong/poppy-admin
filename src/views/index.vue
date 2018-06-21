@@ -3,17 +3,17 @@
         v-if="$route.name !== 'Auth'">
         <side-menu></side-menu>
         <div class="poppy-admin-container">
-            <header class="poppy-admin-header">
-                <ul class="tools">
+            <!-- <header class="poppy-admin-header">
+                <ul class="tools"> -->
                     <!-- <li class="tools-item">
                         <i class="tools-item-icon icon-indent-decrease"></i>
                     </li> -->
-                    <li class="tools-item"
+                    <!-- <li class="tools-item"
                         @click="logout">
                         <i class="tools-item-icon icon-switch"></i>
-                    </li>
-                </ul>
-            </header>
+                    </li> -->
+                <!-- </ul>
+            </header> -->
             <router-view></router-view>
         </div>
     </div>
@@ -30,14 +30,6 @@
     Vue.prototype.$confirm = MessageBox.confirm
 
     export default {
-        methods: {
-            logout () {
-                localStorage.removeItem(`${NODE_ENV === 'production' ? 'www' : NODE_ENV}.sephenry.cn`)
-                this.$router.push({
-                    name: 'Auth'
-                })
-            }
-        },
         components: {
             'side-menu': sideMenu
         }
@@ -47,25 +39,24 @@
 <style lang="scss">
     .poppy-admin {
         display: flex;
-        height: 100%;
+        min-height: 100%;
+        background: linear-gradient(to top right, #C8D0FC, #FCC3DF);
         .poppy-admin-container {
-            float: right;
-            width: calc(100% - 240px);
-            height: 100%;
-            margin-left: 240px;
+            flex: 1;
             padding: 30px 25px 0;
-            .poppy-admin-header {
-                padding-bottom: 30px;
-            }
-            .tools {
-                &-item {
-                    padding: 10px 0;
-                    &-icon {
-                        vertical-align: middle;
-                        cursor: pointer;
-                    }
-                }
-            }
+            background-color: #fff;
+            // .poppy-admin-header {
+            //     padding-bottom: 30px;
+            // }
+            // .tools {
+            //     &-item {
+            //         padding: 10px 0;
+            //         &-icon {
+            //             vertical-align: middle;
+            //             cursor: pointer;
+            //         }
+            //     }
+            // }
         }
     }
 </style>
