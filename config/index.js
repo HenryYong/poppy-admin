@@ -5,6 +5,7 @@
 
 import path from 'path'
 import devEnvVar from './dev.env_var'
+import testEnvVar from './test.env_var'
 import prodEnvVar from './prod.env_var'
 
 export default {
@@ -17,6 +18,9 @@ export default {
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
         bundleAnalyzerReport: process.env.npm_config_report
+    },
+    test: {
+        envVar: testEnvVar
     },
     dev: {
         port: 8005,

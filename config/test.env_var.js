@@ -1,12 +1,12 @@
 /**
- * dev env
+ * test env
  * @author Henry Yang
  */
 
 const {
     stringify
 } = JSON
-const url = 'http://test.sephenry.cn:8000/api'
+const url = 'http://test.sephenry.cn:8888/api'
 
 export default {
     'process.env': {
