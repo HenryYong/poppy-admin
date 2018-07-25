@@ -3,7 +3,7 @@
         <div class="inner-header-icon"
             v-if="hasGoBack"
             @click.stop.prevent="$router.go(-1)">
-            <i class="icon-arrow-left"></i>
+            <i class="iconfont icon-arrow-left"></i>
         </div>
         <div class="inner-header-title">
             {{ title }}
@@ -36,6 +36,9 @@
             width: 20px;
             margin-right: 15px;
             cursor: pointer;
+            .iconfont {
+              font-size: 20px;
+            }
         }
         &-title {
             width: calc(100% - 20px);
