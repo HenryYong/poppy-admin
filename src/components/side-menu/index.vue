@@ -12,7 +12,7 @@
                     active: item.id === $route.name || (item.children && item.children.some(child => child === $route.name))
                 }"
                 @click.stop="itemClickHandler(item.id)">
-                  <i class="item-icon"
+                  <i class="iconfont"
                     :class="`icon-${item.icon}`"></i>
                   <span class="item-text">
                       {{ item.text }}
@@ -20,7 +20,7 @@
               </li>
               <li class="side-menu-list-item"
                   @click="logout">
-                  <i class="item-icon icon-switch"></i>
+                  <i class="iconfont icon-logout"></i>
                   <span class="item-text">Logout</span>
               </li>
           </ul>
@@ -76,23 +76,19 @@
                 cursor: pointer;
                 color: $grayDarker;
                 &:hover {
-                    [class^="item"] {
-                        transition: color .3s linear;
-                        color: $blackLight;
-                    }
+                    transition: color .3s linear;
+                    color: $blackLight;
                 }
                 &.active {
-                    [class^="item"] {
-                        color: $primary;
-                    }
+                    color: $primary;
                 }
                 .item-text {
                     font-size: 14px;
                 }
-                .item-icon {
+                .iconfont {
                     margin-right: 15px;
                     line-height: 18px;
-                    font-size: 14px;
+                    font-size: 18px;
                 }
             }
         }

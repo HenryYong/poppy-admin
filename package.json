@@ -64,6 +64,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "source-list-map": "^2.0.0",
+    "split-source-webpack-plugin": "^0.1.0",
     "style-loader": "^0.19.1",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "url-loader": "^0.6.2",
