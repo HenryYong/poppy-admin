@@ -42,7 +42,7 @@ const webpackConfig = merge(baseConfig, {
         chunkFilename: assetsPath('js/[name].[chunkhash].js')
     },
     plugins: [
-        new webpack.DefinePlugin(config[process.env.NODE_ENV].envVar), // 根据当前编译环境引入不同的全局变量
+        new webpack.DefinePlugin(config.build.envVar), // 根据当前编译环境引入不同的全局变量
         new UglifyJS({
             uglifyOptions: {
                 compress: {
