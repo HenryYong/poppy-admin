@@ -76,7 +76,7 @@ const webpackConfig = merge(baseConfig, {
             {
                 libName: 'vue',
                 globalName: 'Vue',
-                url: 'https://cdn.bootcss.com/vue/2.5.13/vue.min.js'
+                url: 'https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js'
             },
             {
                 libName: 'vue-router',
