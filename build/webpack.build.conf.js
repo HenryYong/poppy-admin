@@ -112,12 +112,19 @@ const webpackConfig = merge(baseConfig, {
                 && resource.match(/\.js$/)
             )
         }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'common-lazy',
+        //     minChunks: ({ resource } = {}) => (
+        //         resource
+        //         && resource.includes('node_modules')
+        //     )
+        // }),
         new webpack.optimize.CommonsChunkPlugin({
-            async: 'common-lazy',
-            minChunks: ({ resource } = {}) => (
+            async: 'highlight',
+            minChunks: ({ resource } = {}) => {
                 resource
-                && resource.includes('node_modules')
-            )
+                && resource.match(/[highlight\.js|html|css|javascript|bash|nginx]/)
+            }
         }),
         new webpack.optimize.CommonsChunkPlugin({
             async: 'twice',
