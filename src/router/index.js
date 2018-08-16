@@ -33,9 +33,7 @@ let routesArr = [
 let children = []
 let routes = []
 
-if (process.env.NODE_ENV === 'dev') {
-    Vue.use(Router)
-}
+Vue.use(Router)
 
 routesArr.map(route => {
     children.push(...route)
