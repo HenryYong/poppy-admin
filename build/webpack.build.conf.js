@@ -16,7 +16,8 @@ import OptimizeCSSAssetsPlguin from 'optimize-css-assets-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import CompressionWebpackPlugin from 'compression-webpack-plugin'
 import bundleAnalyzer from 'webpack-bundle-analyzer'
-import SplitSourceWebpackPlugin from 'split-source-webpack-plugin'
+// import SplitSourceWebpackPlugin from 'split-source-webpack-plugin'
+import HTMLWebpackScriptPlugin from './../src/plugins/html-webpack-script-plugin'
 
 import baseConfig from './webpack.base.conf'
 import config from './../config'
@@ -72,28 +73,36 @@ const webpackConfig = merge(baseConfig, {
             // 如果打开 vendor 和 manifest 那么需要配置 chunksSortMode 保证引入 script 的顺序
             chunksSortMode: 'dependency'
         }),
-        new SplitSourceWebpackPlugin([
-            {
-                libName: 'vue',
-                globalName: 'Vue',
-                url: 'https://cdn.bootcss.com/vue/2.5.13/vue.min.js'
-            },
-            {
-                libName: 'vue-router',
-                globalName: 'VueRouter',
-                url: 'https://unpkg.com/vue-router@3.0.1/dist/vue-router.js'
-            },
-            {
-                libName: 'vuex',
-                globalName: 'Vuex',
-                url: 'https://unpkg.com/vuex@3.0.1/dist/vuex.js'
-            },
-            {
-                libName: 'axios',
-                globalName: 'axios',
-                url: 'https://unpkg.com/axios/dist/axios.min.js'
-            }
-        ]),
+        // new SplitSourceWebpackPlugin([
+        //     {
+        //         libName: 'vue',
+        //         globalName: 'Vue',
+        //         url: 'https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js'
+        //     },
+        //     {
+        //         libName: 'vue-router',
+        //         globalName: 'VueRouter',
+        //         url: 'https://unpkg.com/vue-router@3.0.1/dist/vue-router.js'
+        //     },
+        //     {
+        //         libName: 'vuex',
+        //         globalName: 'Vuex',
+        //         url: 'https://unpkg.com/vuex@3.0.1/dist/vuex.js'
+        //     },
+        //     {
+        //         libName: 'axios',
+        //         globalName: 'axios',
+        //         url: 'https://unpkg.com/axios/dist/axios.min.js'
+        //     }
+        // ]),
+        new HTMLWebpackScriptPlugin({
+            paths: [
+                'https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js',
+                'https://unpkg.com/vue-router@3.0.1/dist/vue-router.js',
+                'https://unpkg.com/vuex@3.0.1/dist/vuex.js',
+                'https://unpkg.com/axios/dist/axios.min.js'
+            ]
+        }),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
@@ -104,16 +113,37 @@ const webpackConfig = merge(baseConfig, {
             )
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            async: 'common-lazy',
+            async: 'mavon-editor',
             minChunks: ({ resource } = {}) => (
                 resource
-                && resource.includes('node_modules')
+                && resource.includes('mavon-editor')
             )
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            async: 'twice',
-            minChunks: (module, count) => (count >= 2)
+            async: 'element-ui',
+            minChunks: ({ resource } = {}) => {
+                resource
+                && resource.includes('element-ui')
+            }
         }),
+        new webpack.optimize.CommonsChunkPlugin({
+            async: 'highlight',
+            minChunks: ({ resource } = {}) => {
+                resource
+                && resource.match(/[highlight\.js|html|css|javascript|bash|nginx]/)
+            }
+        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'twice',
+        //     minChunks: (module, count) => (count >= 2)
+        // }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'common-lazy',
+        //     minChunks: ({ resource } = {}) => (
+        //         resource
+        //         && resource.includes('node_modules')
+        //     )
+        // }),
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
@@ -121,7 +151,13 @@ const webpackConfig = merge(baseConfig, {
                 ignore: ['.*']
             }
         ])
-    ]
+    ],
+    externals: {
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'vuex': 'Vuex',
+        'axios': 'axios'
+    }
 })
 
 if (config.build.productionGzip) {
