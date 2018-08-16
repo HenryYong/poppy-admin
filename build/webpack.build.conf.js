@@ -112,13 +112,20 @@ const webpackConfig = merge(baseConfig, {
                 && resource.match(/\.js$/)
             )
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'common-lazy',
-        //     minChunks: ({ resource } = {}) => (
-        //         resource
-        //         && resource.includes('node_modules')
-        //     )
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            async: 'mavon-editor',
+            minChunks: ({ resource } = {}) => (
+                resource
+                && resource.includes('mavon-editor')
+            )
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            async: 'element-ui',
+            minChunks: ({ resource } = {}) => {
+                resource
+                && resource.includes('element-ui')
+            }
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             async: 'highlight',
             minChunks: ({ resource } = {}) => {
@@ -126,10 +133,17 @@ const webpackConfig = merge(baseConfig, {
                 && resource.match(/[highlight\.js|html|css|javascript|bash|nginx]/)
             }
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            async: 'twice',
-            minChunks: (module, count) => (count >= 2)
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'twice',
+        //     minChunks: (module, count) => (count >= 2)
+        // }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'common-lazy',
+        //     minChunks: ({ resource } = {}) => (
+        //         resource
+        //         && resource.includes('node_modules')
+        //     )
+        // }),
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
