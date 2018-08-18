@@ -26,26 +26,19 @@ import {
     assetsPath
 } from './utils'
 
-// const highlightIncludes = [
-//     'html',
-//     'css',
-//     'javascript',
-//     'bash',
-//     'nginx'
-// ]
 const webpackConfig = merge(baseConfig, {
     entry: {
         'main': './src/main.js'
     },
     module: {
         // rules: styleLoaders({
-        //     sourceMap: config.build.productionSourceMap,
+        //     sourceMap: config.production.productionSourceMap,
         //     extract: true
         // })
     },
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
+    devtool: config.production.productionSourceMap ? '#source-map' : false,
     output: {
-        path: config.build.assetsRoot,
+        path: config.production.assetsRoot,
         filename: assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: assetsPath('js/[name].[chunkhash].js')
     },
@@ -69,7 +62,7 @@ const webpackConfig = merge(baseConfig, {
             }
         }),
         new HTMLWebpackPlugin({
-            filename: resolve(config.build.assetsRoot + sep + config.build.assetsSubDirectory, '..') + '/index.html',
+            filename: resolve(config.production.assetsRoot + sep + config.production.assetsSubDirectory, '..') + '/index.html',
             template: 'index.html',
             inject: true,
             minify: {
@@ -111,30 +104,10 @@ const webpackConfig = merge(baseConfig, {
                 && resource.includes('element-ui')
             )
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'highlight',
-        //     minChunks: ({ resource } = {}) => (
-        //         resource
-        //         && highlightIncludes.some(item => {
-        //             return resource.includes(`${item}.js`)
-        //         })
-        //     )
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'twice',
-        //     minChunks: (module, count) => (count >= 2)
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'common-lazy',
-        //     minChunks: ({ resource } = {}) => (
-        //         resource
-        //         && resource.includes('node_modules')
-        //     )
-        // }),
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
-                to: config.build.assetsSubDirectory,
+                to: config.production.assetsSubDirectory,
                 ignore: ['.*']
             }
         ])
@@ -147,19 +120,19 @@ const webpackConfig = merge(baseConfig, {
     }
 })
 
-if (config.build.productionGzip) {
+if (config.production.productionGzip) {
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
+            test: new RegExp('\\.(' + config.production.productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
         })
     )
 }
 
-if (config.build.bundleAnalyzerReport) {
+if (config.production.bundleAnalyzerReport) {
     const BundleAnalyzerPlugin = bundleAnalyzer.BundleAnalyzerPlugin
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }

@@ -21,9 +21,9 @@ function resolve (dir) {
 export default {
     // context: path.resolve(__dirname, '../'), // 配置当前js执行时的上下文位置
     output: {
-        path: config.build.assetsRoot,
+        path: config.production.assetsRoot,
         filename: '[name].js',
-        publicPath: isProd ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+        publicPath: isProd ? config.production.assetsPublicPath : config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue'],
@@ -69,7 +69,7 @@ export default {
                     },
                     loaders: cssLoaders({
                         extract: isProd,
-                        sourceMap: isProd ? config.build.productionSourceMap : config.dev.cssSourceMap
+                        sourceMap: isProd ? config.production.productionSourceMap : config.dev.cssSourceMap
                     })
                 }
             },

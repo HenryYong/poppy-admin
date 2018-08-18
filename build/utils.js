@@ -10,7 +10,7 @@ import autoprefixer from 'autoprefixer'
 import rider from 'rider'
 
 export function assetsPath (_path) {
-    return path.posix.join(config.build.assetsSubDirectory, _path)
+    return path.posix.join(config.production.assetsSubDirectory, _path)
 }
 
 export function cssLoaders (options = {}) {
