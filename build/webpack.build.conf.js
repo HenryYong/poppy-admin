@@ -26,6 +26,13 @@ import {
     assetsPath
 } from './utils'
 
+// const highlightIncludes = [
+//     'html',
+//     'css',
+//     'javascript',
+//     'bash',
+//     'nginx'
+// ]
 const webpackConfig = merge(baseConfig, {
     entry: {
         'main': './src/main.js'
@@ -43,7 +50,7 @@ const webpackConfig = merge(baseConfig, {
         chunkFilename: assetsPath('js/[name].[chunkhash].js')
     },
     plugins: [
-        new webpack.DefinePlugin(config.build.envVar), // 根据当前编译环境引入不同的全局变量
+        new webpack.DefinePlugin(config[process.env.NODE_ENV].envVar), // 根据当前编译环境引入不同的全局变量
         new UglifyJS({
             uglifyOptions: {
                 compress: {
@@ -73,28 +80,6 @@ const webpackConfig = merge(baseConfig, {
             // 如果打开 vendor 和 manifest 那么需要配置 chunksSortMode 保证引入 script 的顺序
             chunksSortMode: 'dependency'
         }),
-        // new SplitSourceWebpackPlugin([
-        //     {
-        //         libName: 'vue',
-        //         globalName: 'Vue',
-        //         url: 'https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js'
-        //     },
-        //     {
-        //         libName: 'vue-router',
-        //         globalName: 'VueRouter',
-        //         url: 'https://unpkg.com/vue-router@3.0.1/dist/vue-router.js'
-        //     },
-        //     {
-        //         libName: 'vuex',
-        //         globalName: 'Vuex',
-        //         url: 'https://unpkg.com/vuex@3.0.1/dist/vuex.js'
-        //     },
-        //     {
-        //         libName: 'axios',
-        //         globalName: 'axios',
-        //         url: 'https://unpkg.com/axios/dist/axios.min.js'
-        //     }
-        // ]),
         new HTMLWebpackScriptPlugin({
             paths: [
                 'https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js',
@@ -121,18 +106,20 @@ const webpackConfig = merge(baseConfig, {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             async: 'element-ui',
-            minChunks: ({ resource } = {}) => {
+            minChunks: ({ resource } = {}) => (
                 resource
                 && resource.includes('element-ui')
-            }
+            )
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            async: 'highlight',
-            minChunks: ({ resource } = {}) => {
-                resource
-                && resource.match(/[highlight\.js|html|css|javascript|bash|nginx]/)
-            }
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     async: 'highlight',
+        //     minChunks: ({ resource } = {}) => (
+        //         resource
+        //         && highlightIncludes.some(item => {
+        //             return resource.includes(`${item}.js`)
+        //         })
+        //     )
+        // }),
         // new webpack.optimize.CommonsChunkPlugin({
         //     async: 'twice',
         //     minChunks: (module, count) => (count >= 2)
