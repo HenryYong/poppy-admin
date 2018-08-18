@@ -14,7 +14,7 @@ const spinner = ora(`building for ${process.env.NODE_ENV} env`)
 
 spinner.start()
 
-rm(config.build.assetsRoot, (e) => {
+rm(config.production.assetsRoot, (e) => {
     if (e) {
         throw e
     }

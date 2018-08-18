@@ -39,13 +39,13 @@ const webpackConfig = merge(baseConfig, {
     },
     module: {
         // rules: styleLoaders({
-        //     sourceMap: config.build.productionSourceMap,
+        //     sourceMap: config.production.productionSourceMap,
         //     extract: true
         // })
     },
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
+    devtool: config.production.productionSourceMap ? '#source-map' : false,
     output: {
-        path: config.build.assetsRoot,
+        path: config.production.assetsRoot,
         filename: assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: assetsPath('js/[name].[chunkhash].js')
     },
@@ -69,7 +69,7 @@ const webpackConfig = merge(baseConfig, {
             }
         }),
         new HTMLWebpackPlugin({
-            filename: resolve(config.build.assetsRoot + sep + config.build.assetsSubDirectory, '..') + '/index.html',
+            filename: resolve(config.production.assetsRoot + sep + config.production.assetsSubDirectory, '..') + '/index.html',
             template: 'index.html',
             inject: true,
             minify: {
@@ -134,7 +134,7 @@ const webpackConfig = merge(baseConfig, {
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
-                to: config.build.assetsSubDirectory,
+                to: config.production.assetsSubDirectory,
                 ignore: ['.*']
             }
         ])
@@ -147,19 +147,19 @@ const webpackConfig = merge(baseConfig, {
     }
 })
 
-if (config.build.productionGzip) {
+if (config.production.productionGzip) {
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
+            test: new RegExp('\\.(' + config.production.productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
         })
     )
 }
 
-if (config.build.bundleAnalyzerReport) {
+if (config.production.bundleAnalyzerReport) {
     const BundleAnalyzerPlugin = bundleAnalyzer.BundleAnalyzerPlugin
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
