@@ -26,13 +26,6 @@ import {
     assetsPath
 } from './utils'
 
-// const highlightIncludes = [
-//     'html',
-//     'css',
-//     'javascript',
-//     'bash',
-//     'nginx'
-// ]
 const webpackConfig = merge(baseConfig, {
     entry: {
         'main': './src/main.js'
@@ -111,26 +104,6 @@ const webpackConfig = merge(baseConfig, {
                 && resource.includes('element-ui')
             )
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'highlight',
-        //     minChunks: ({ resource } = {}) => (
-        //         resource
-        //         && highlightIncludes.some(item => {
-        //             return resource.includes(`${item}.js`)
-        //         })
-        //     )
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'twice',
-        //     minChunks: (module, count) => (count >= 2)
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     async: 'common-lazy',
-        //     minChunks: ({ resource } = {}) => (
-        //         resource
-        //         && resource.includes('node_modules')
-        //     )
-        // }),
         new CopyWebpackPlugin([
             {
                 from: resolve(__dirname, '../static'),
