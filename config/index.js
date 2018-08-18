@@ -9,7 +9,7 @@ import testEnvVar from './test.env_var'
 import prodEnvVar from './prod.env_var'
 
 export default {
-    build: {
+    production: {
         envVar: prodEnvVar,
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
